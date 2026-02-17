@@ -7,15 +7,15 @@ import { Medicine, ShoppingItem, DeletedMedicine } from '../types';
 export const MedicineInventory: React.FC = () => {
   const navigate = useNavigate();
   const { medicines, deletionHistory, shoppingItems, addMedicine, deleteMedicine, addShoppingItem, toggleShoppingItem } = useMedicines();
-  
+
   // Tab: 预警, 全部, 采购, 历史
   const [activeTab, setActiveTab] = useState<'expiry' | 'inventory' | 'shopping' | 'history'>('expiry');
-  
+
   // Modals
   const [isShoppingModalOpen, setIsShoppingModalOpen] = useState(false);
   const [isMedicineModalOpen, setIsMedicineModalOpen] = useState(false);
   const [medicineToDelete, setMedicineToDelete] = useState<Medicine | null>(null);
-  
+
   // Long press timer and state
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [pressingId, setPressingId] = useState<string | null>(null);
@@ -46,7 +46,7 @@ export const MedicineInventory: React.FC = () => {
     const today = new Date();
     const expiry = new Date(newMedicine.expiryDate);
     const diffDays = Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-    
+
     let status: 'normal' | 'expired' | 'warning' = 'normal';
     if (diffDays < 0) status = 'expired';
     else if (diffDays < 90) status = 'warning';
@@ -136,10 +136,10 @@ export const MedicineInventory: React.FC = () => {
               .map(m => {
                 const isLowStock = m.stock < m.minStock;
                 const isPressing = pressingId === m.id;
-                
+
                 return (
-                  <div 
-                    key={m.id} 
+                  <div
+                    key={m.id}
                     onMouseDown={() => handleLongPressStart(m)}
                     onMouseUp={handleLongPressEnd}
                     onMouseLeave={handleLongPressEnd}
@@ -223,9 +223,10 @@ export const MedicineInventory: React.FC = () => {
 
       {/* 删除确认 Modal */}
       {medicineToDelete && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-6">
+        <div className="fixed inset-0 z-[1100] flex items-end sm:items-center justify-center animate-in fade-in duration-200">
           <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={() => setMedicineToDelete(null)}></div>
-          <div className="relative w-full max-w-xs bg-white dark:bg-slate-900 rounded-[32px] p-6 shadow-2xl animate-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-t-[40px] sm:rounded-[40px] p-8 pb-[calc(2rem+env(safe-area-inset-bottom))] sm:pb-8 shadow-2xl animate-in slide-in-from-bottom sm:zoom-in-95 duration-300">
+            <div className="w-12 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mx-auto mb-6 sm:hidden"></div>
             <div className="size-14 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <span className="material-symbols-outlined text-2xl">delete_forever</span>
             </div>
@@ -243,21 +244,22 @@ export const MedicineInventory: React.FC = () => {
       {isMedicineModalOpen && (
         <div className="fixed inset-0 z-[1000] flex items-end sm:items-center justify-center p-0 sm:p-4">
           <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-md" onClick={() => setIsMedicineModalOpen(false)}></div>
-          <div className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-t-[40px] sm:rounded-[40px] shadow-2xl p-8 animate-in slide-in-from-bottom duration-300 max-h-[90vh] overflow-y-auto">
+          <div className="relative w-full max-w-[480px] bg-white dark:bg-slate-900 rounded-t-[40px] sm:rounded-[40px] shadow-2xl p-8 pb-[calc(2rem+env(safe-area-inset-bottom))] sm:pb-8 animate-in slide-in-from-bottom duration-300 max-h-[90vh] overflow-y-auto">
+            <div className="w-12 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mx-auto mb-6 sm:hidden"></div>
             <h3 className="text-xl font-black mb-6">录入物资</h3>
             <div className="space-y-4 mb-8">
               <div className="space-y-1.5">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">物资名称</p>
-                <input className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20" placeholder="如: 3M纳米树脂" value={newMedicine.name} onChange={e => setNewMedicine({...newMedicine, name: e.target.value})} />
+                <input className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20" placeholder="如: 3M纳米树脂" value={newMedicine.name} onChange={e => setNewMedicine({ ...newMedicine, name: e.target.value })} />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">品牌</p>
-                  <input className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black" placeholder="品牌" value={newMedicine.brand} onChange={e => setNewMedicine({...newMedicine, brand: e.target.value})} />
+                  <input className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black" placeholder="品牌" value={newMedicine.brand} onChange={e => setNewMedicine({ ...newMedicine, brand: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">分类</p>
-                  <select className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black" value={newMedicine.category} onChange={e => setNewMedicine({...newMedicine, category: e.target.value as any})} >
+                  <select className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black" value={newMedicine.category} onChange={e => setNewMedicine({ ...newMedicine, category: e.target.value as any })} >
                     <option value="麻醉">麻醉</option><option value="填充">填充</option><option value="消毒">消毒</option><option value="耗材">耗材</option><option value="其他">其他</option>
                   </select>
                 </div>
@@ -265,16 +267,16 @@ export const MedicineInventory: React.FC = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">当前库存</p>
-                  <input type="number" className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black" value={newMedicine.stock} onChange={e => setNewMedicine({...newMedicine, stock: Number(e.target.value)})} />
+                  <input type="number" className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black" value={newMedicine.stock} onChange={e => setNewMedicine({ ...newMedicine, stock: Number(e.target.value) })} />
                 </div>
                 <div className="space-y-1.5">
                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">单位</p>
-                  <input className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black" placeholder="支/盒/套" value={newMedicine.unit} onChange={e => setNewMedicine({...newMedicine, unit: e.target.value})} />
+                  <input className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black" placeholder="支/盒/套" value={newMedicine.unit} onChange={e => setNewMedicine({ ...newMedicine, unit: e.target.value })} />
                 </div>
               </div>
               <div className="space-y-1.5">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">有效期至</p>
-                <input type="date" className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black text-primary" value={newMedicine.expiryDate} onChange={e => setNewMedicine({...newMedicine, expiryDate: e.target.value})} />
+                <input type="date" className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black text-primary" value={newMedicine.expiryDate} onChange={e => setNewMedicine({ ...newMedicine, expiryDate: e.target.value })} />
               </div>
             </div>
             <div className="flex gap-4">
@@ -287,18 +289,19 @@ export const MedicineInventory: React.FC = () => {
 
       {/* 手动采购 Modal */}
       {isShoppingModalOpen && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-6">
+        <div className="fixed inset-0 z-[1100] flex items-end sm:items-center justify-center animate-in fade-in duration-200">
           <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={() => setIsShoppingModalOpen(false)}></div>
-          <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-[32px] p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-t-[40px] sm:rounded-[40px] p-8 pb-[calc(2rem+env(safe-area-inset-bottom))] sm:pb-8 shadow-2xl animate-in slide-in-from-bottom sm:zoom-in-95 duration-300">
+            <div className="w-12 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mx-auto mb-6 sm:hidden"></div>
             <h3 className="text-xl font-black mb-6 text-center">手动添加采购项</h3>
             <div className="space-y-4 mb-8">
               <div className="space-y-1.5">
                 <p className="text-[10px] font-black text-slate-400 uppercase pl-1">物品名称</p>
-                <input className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20" placeholder="如: 高速机芯" value={newItem.name} onChange={e => setNewItem({...newItem, name: e.target.value})} />
+                <input className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20" placeholder="如: 高速机芯" value={newItem.name} onChange={e => setNewItem({ ...newItem, name: e.target.value })} />
               </div>
               <div className="space-y-1.5">
                 <p className="text-[10px] font-black text-slate-400 uppercase pl-1">数量</p>
-                <input className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20" placeholder="如: 5个" value={newItem.quantity} onChange={e => setNewItem({...newItem, quantity: e.target.value})} />
+                <input className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20" placeholder="如: 5个" value={newItem.quantity} onChange={e => setNewItem({ ...newItem, quantity: e.target.value })} />
               </div>
             </div>
             <div className="flex gap-3">
