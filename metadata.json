@@ -1,0 +1,7 @@
+{
+  "name": "宝龙口腔",
+  "description": "一个专业且现代化的口腔门诊管理应用，支持病历查询、预约管理、牙位图选择及智能AI辅助诊断。",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
