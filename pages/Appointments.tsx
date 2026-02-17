@@ -18,7 +18,7 @@ export const Appointments: React.FC = () => {
     const baseDate = new Date(selectedDate);
     const todayStr = new Date().toISOString().split('T')[0];
     const days = [];
-    
+
     // 生成前后各 7 天的范围
     for (let i = -7; i <= 7; i++) {
       const d = new Date(baseDate);
@@ -52,7 +52,7 @@ export const Appointments: React.FC = () => {
 
   // 自动滚动选中的日期到视图中央
   const scrollRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<{[key: string]: HTMLButtonElement | null}>({});
+  const itemRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
   useEffect(() => {
     if (selectedDate && itemRefs.current[selectedDate] && scrollRef.current) {
@@ -95,9 +95,9 @@ export const Appointments: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const dayAppointments = useMemo(() => 
+  const dayAppointments = useMemo(() =>
     appointments.filter(a => a.date === selectedDate)
-  , [appointments, selectedDate]);
+    , [appointments, selectedDate]);
 
   const getAptAtTime = (time: string) => dayAppointments.find(a => a.time === time);
 
@@ -126,7 +126,7 @@ export const Appointments: React.FC = () => {
             <span className="material-symbols-outlined font-black">arrow_back</span>
           </button>
           <h2 className="text-[17px] font-black text-slate-800 dark:text-slate-100">预约排班</h2>
-          <button 
+          <button
             onClick={() => {
               const d = new Date(selectedDate);
               setTempYear(d.getFullYear());
@@ -159,7 +159,7 @@ export const Appointments: React.FC = () => {
 
       <main className="flex-1 p-4 space-y-4">
         <div className="flex items-center justify-between mb-2 px-1">
-          <button 
+          <button
             onClick={() => setIsDatePickerOpen(true)}
             className="flex items-center gap-1.5"
           >
@@ -182,10 +182,10 @@ export const Appointments: React.FC = () => {
                   <span className="text-sm font-black text-slate-400">{time}</span>
                   <div className="w-px flex-1 bg-slate-200 dark:bg-slate-800 mt-2 opacity-50"></div>
                 </div>
-                
+
                 <div className="flex-1 pb-4">
                   {apt ? (
-                    <div 
+                    <div
                       className="group bg-white dark:bg-slate-800 border-l-4 border-primary rounded-3xl p-4 shadow-sm relative animate-in fade-in slide-in-from-right-4 active:scale-[0.98] transition-all"
                       onContextMenu={(e) => {
                         e.preventDefault();
@@ -202,7 +202,7 @@ export const Appointments: React.FC = () => {
                             <span className="material-symbols-outlined text-[12px]">call</span>{apt.phone}
                           </p>
                         </div>
-                        <button 
+                        <button
                           onClick={() => {
                             if (window.confirm(`患者 ${apt.patientName} 已到店？一键将其转入待就诊名单。`)) {
                               cancelAppointment(apt.id);
@@ -216,7 +216,7 @@ export const Appointments: React.FC = () => {
                       </div>
                     </div>
                   ) : (
-                    <button 
+                    <button
                       onClick={() => handleOpenModal(time)}
                       className="w-full h-16 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl flex items-center justify-center gap-2 text-slate-300 hover:border-primary/40 hover:text-primary transition-all active:scale-[0.98] group"
                     >
@@ -233,15 +233,16 @@ export const Appointments: React.FC = () => {
 
       {/* 全日期选择模态框 */}
       {isDatePickerOpen && (
-        <div className="fixed inset-0 z-[1100] flex items-center justify-center p-6 animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[1100] flex items-end sm:items-center justify-center animate-in fade-in duration-200">
           <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={() => setIsDatePickerOpen(false)}></div>
-          <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-[40px] p-8 shadow-2xl animate-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-t-[40px] sm:rounded-[40px] p-8 pb-[calc(2rem+env(safe-area-inset-bottom))] sm:pb-8 shadow-2xl animate-in slide-in-from-bottom sm:zoom-in-95 duration-300">
+            <div className="w-12 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mx-auto mb-6 sm:hidden"></div>
             <h3 className="text-xl font-black mb-6 text-center">选择预约日期</h3>
-            
+
             <div className="grid grid-cols-3 gap-3 mb-8">
               <div className="space-y-1.5">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">年份</p>
-                <select 
+                <select
                   className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black"
                   value={tempYear}
                   onChange={(e) => setTempYear(parseInt(e.target.value))}
@@ -251,42 +252,42 @@ export const Appointments: React.FC = () => {
               </div>
               <div className="space-y-1.5">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">月份</p>
-                <select 
+                <select
                   className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black"
                   value={tempMonth}
                   onChange={(e) => setTempMonth(parseInt(e.target.value))}
                 >
-                  {Array.from({length: 12}).map((_, i) => <option key={i} value={i+1}>{i+1}月</option>)}
+                  {Array.from({ length: 12 }).map((_, i) => <option key={i} value={i + 1}>{i + 1}月</option>)}
                 </select>
               </div>
               <div className="space-y-1.5">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">日期</p>
-                <select 
+                <select
                   className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black"
                   value={tempDay}
                   onChange={(e) => setTempDay(parseInt(e.target.value))}
                 >
-                  {Array.from({length: 31}).map((_, i) => <option key={i} value={i+1}>{i+1}日</option>)}
+                  {Array.from({ length: 31 }).map((_, i) => <option key={i} value={i + 1}>{i + 1}日</option>)}
                 </select>
               </div>
             </div>
 
             <div className="flex flex-col gap-3">
-              <button 
-                onClick={handleJumpDate} 
+              <button
+                onClick={handleJumpDate}
                 className="w-full h-16 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/20 active:scale-95 transition-all"
               >
                 确定跳转
               </button>
               <div className="flex gap-3">
-                <button 
-                  onClick={handleGoToday} 
+                <button
+                  onClick={handleGoToday}
                   className="flex-1 h-14 bg-primary/10 text-primary border border-primary/20 rounded-2xl font-black text-sm active:scale-95 transition-all"
                 >
                   返回今天
                 </button>
-                <button 
-                  onClick={() => setIsDatePickerOpen(false)} 
+                <button
+                  onClick={() => setIsDatePickerOpen(false)}
                   className="flex-1 h-14 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl font-black text-sm active:scale-95 transition-all"
                 >
                   取消
@@ -301,9 +302,9 @@ export const Appointments: React.FC = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-[1000] flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200">
           <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={() => setIsModalOpen(false)}></div>
-          <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-t-[40px] sm:rounded-[40px] p-8 shadow-2xl animate-in slide-in-from-bottom duration-300">
+          <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-t-[40px] sm:rounded-[40px] p-8 pb-[calc(2rem+env(safe-area-inset-bottom))] sm:pb-8 shadow-2xl animate-in slide-in-from-bottom duration-300">
             <div className="w-12 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mx-auto mb-6 sm:hidden"></div>
-            
+
             <div className="flex items-center gap-3 mb-6">
               <div className="size-12 bg-primary/10 text-primary rounded-2xl flex items-center justify-center">
                 <span className="material-symbols-outlined font-black">calendar_add_on</span>
@@ -318,8 +319,8 @@ export const Appointments: React.FC = () => {
               <div className="space-y-1.5">
                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">患者检索 / 姓名</p>
                 <div className="relative">
-                  <input 
-                    className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20" 
+                  <input
+                    className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20"
                     placeholder="搜老患者或直接输入..."
                     value={searchQuery || newApt.patientName}
                     onChange={(e) => {
@@ -331,7 +332,7 @@ export const Appointments: React.FC = () => {
                   {filteredExistingPatients.length > 0 && (
                     <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl shadow-xl z-10 overflow-hidden">
                       {filteredExistingPatients.map(p => (
-                        <button 
+                        <button
                           key={p.id}
                           onClick={() => {
                             setNewApt({ ...newApt, patientName: p.name, phone: p.phone, patientId: p.id });
@@ -353,7 +354,7 @@ export const Appointments: React.FC = () => {
 
               <div className="space-y-1.5">
                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">联系电话</p>
-                <input 
+                <input
                   className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black"
                   placeholder="请输入手机号"
                   value={newApt.phone}
@@ -363,7 +364,7 @@ export const Appointments: React.FC = () => {
 
               <div className="space-y-1.5">
                 <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">诊疗内容</p>
-                <select 
+                <select
                   className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20"
                   value={newApt.type}
                   onChange={(e) => setNewApt(prev => ({ ...prev, type: e.target.value }))}
