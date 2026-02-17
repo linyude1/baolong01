@@ -9,27 +9,27 @@ export const Home: React.FC = () => {
   const navigate = useNavigate();
   const { patients, updatePatient, deletePatient } = usePatients();
   const { medicines } = useMedicines();
-  
+
   const getLocalDate = () => {
     const d = new Date();
     return { day: d.getDate(), month: d.getMonth(), year: d.getFullYear() };
   };
 
   const today = getLocalDate();
-  
+
   const [selectedDate, setSelectedDate] = useState<number | null>(today.day);
   const [currentMonth, setCurrentMonth] = useState(new Date(today.year, today.month, 1));
   const [searchQuery, setSearchQuery] = useState('');
   const [isYearMonthModalOpen, setIsYearMonthModalOpen] = useState(false);
-  
+
   const [patientToDelete, setPatientToDelete] = useState<Patient | null>(null);
   const [verificationQuestion, setVerificationQuestion] = useState({ q: '', ans: 0 });
   const [userAnswer, setUserAnswer] = useState('');
-  
+
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  
+
   const scrollRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<{[key: number]: HTMLButtonElement | null}>({});
+  const itemRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
   const monthName = currentMonth.toLocaleString('zh-CN', { year: 'numeric', month: 'long' });
 
@@ -148,7 +148,7 @@ export const Home: React.FC = () => {
             displayTooth: p.toothPos || '全口',
             isCompleted: p.status === PatientStatus.COMPLETED
           });
-        } 
+        }
         else {
           const recordOnDate = p.records?.find(r => r.date === targetDateStr);
           if (recordOnDate) {
@@ -179,18 +179,18 @@ export const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col relative pb-20">
-      <header className="sticky top-0 z-30 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800">
-        <div className="p-4">
+      <header className="sticky top-0 z-30 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 pt-[env(safe-area-inset-top)]">
+        <div className="p-4 px-2 sm:px-4">
           <div className="flex items-center justify-between mb-4">
             <button onClick={() => navigate('/medicine')} className="size-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform">
               <span className="material-symbols-outlined text-slate-600 dark:text-slate-300">menu</span>
             </button>
-            
+
             <div className="flex items-center gap-1">
               <button onClick={() => changeMonth(-1)} className="size-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                 <span className="material-symbols-outlined text-slate-400 text-lg">chevron_left</span>
               </button>
-              <div 
+              <div
                 className="flex items-center gap-1 bg-white dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-100 dark:border-slate-700 shadow-sm cursor-pointer active:scale-95 transition-transform"
                 onClick={() => setIsYearMonthModalOpen(true)}
               >
@@ -202,7 +202,7 @@ export const Home: React.FC = () => {
               </button>
             </div>
 
-            <button 
+            <button
               onClick={() => navigate('/medicine')}
               className="size-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 relative active:scale-95 transition-transform"
             >
@@ -212,10 +212,10 @@ export const Home: React.FC = () => {
               )}
             </button>
           </div>
-          
-          <div ref={scrollRef} className="flex overflow-x-auto gap-3 hide-scrollbar pb-2 snap-x px-1 scroll-smooth">
-            <button 
-              onClick={() => setSelectedDate(null)} 
+
+          <div ref={scrollRef} className="flex overflow-x-auto gap-3 hide-scrollbar pb-2 snap-x snap-mandatory px-1 scroll-smooth">
+            <button
+              onClick={() => setSelectedDate(null)}
               className={`flex flex-col items-center justify-center min-w-[62px] h-20 rounded-2xl border transition-all snap-center ${selectedDate === null ? 'bg-primary text-white border-primary shadow-lg scale-105' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600'}`}
             >
               <span className={`text-[10px] font-bold mb-1 ${selectedDate === null ? 'text-white/80' : 'text-slate-400'}`}>本月</span>
@@ -223,10 +223,10 @@ export const Home: React.FC = () => {
             </button>
 
             {daysInMonth.map((d) => (
-              <button 
-                key={d.date} 
+              <button
+                key={d.date}
                 ref={el => itemRefs.current[d.date] = el}
-                onClick={() => setSelectedDate(d.date)} 
+                onClick={() => setSelectedDate(d.date)}
                 className={`flex flex-col items-center justify-center min-w-[62px] h-20 rounded-2xl border transition-all snap-center ${selectedDate === d.date ? 'bg-primary text-white border-primary shadow-lg scale-105' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600'}`}
               >
                 <span className={`text-[10px] font-bold mb-1 ${selectedDate === d.date ? 'text-white/80' : 'text-slate-400'}`}>{d.day}</span>
@@ -238,16 +238,16 @@ export const Home: React.FC = () => {
         </div>
       </header>
 
-      <div className="px-4 py-6 space-y-4">
+      <div className="px-3 sm:px-4 py-6 space-y-4">
         <div className="relative">
           <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
             <span className="material-symbols-outlined">search</span>
           </span>
-          <input 
-            className="block w-full h-14 pl-12 pr-4 bg-white dark:bg-slate-800 border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 text-sm" 
-            placeholder="搜索患者..." 
-            value={searchQuery} 
-            onChange={(e) => setSearchQuery(e.target.value)} 
+          <input
+            className="block w-full h-14 pl-12 pr-4 bg-white dark:bg-slate-800 border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 text-sm"
+            placeholder="搜索患者..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -260,21 +260,21 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      <div className="px-4">
+      <div className="px-3 sm:px-4">
         <div className="flex items-center justify-between mb-4 px-1">
           <h3 className="text-lg font-black">就诊名单 ({filteredVisits.length})</h3>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-black bg-primary/10 text-primary px-2 py-1 rounded-md">
-              {selectedDate === null ? '本月' : `${currentMonth.getMonth()+1}月${selectedDate}日`} 共:{filteredVisits.length}人
+              {selectedDate === null ? '本月' : `${currentMonth.getMonth() + 1}月${selectedDate}日`} 共:{filteredVisits.length}人
             </span>
           </div>
         </div>
-        
+
         <div className="space-y-4">
           {filteredVisits.map((visit, index) => (
-            <div 
-              key={`${visit.patient.id}-${visit.displayTime}`} 
-              onClick={() => navigate(`/cases/${visit.patient.id}`)} 
+            <div
+              key={`${visit.patient.id}-${visit.displayTime}`}
+              onClick={() => navigate(`/cases/${visit.patient.id}`)}
               onMouseDown={() => handleLongPressStart(visit.patient)}
               onMouseUp={handleLongPressEnd}
               onMouseLeave={handleLongPressEnd}
@@ -298,18 +298,18 @@ export const Home: React.FC = () => {
                   <h4 className="text-lg font-bold truncate">{visit.patient.name}</h4>
                   <span className="text-[10px] font-bold text-slate-400">{visit.displayTime}</span>
                 </div>
-                
+
                 <p className="text-[13px] font-bold text-slate-500 mb-2 truncate">
                   {visit.displayDesc || '常规口腔检查'}
                 </p>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <span className="px-2 py-0.5 bg-primary/5 text-primary text-[9px] font-black rounded-md">{visit.patient.treatmentType}</span>
                     <span className="px-2 py-0.5 bg-slate-50 text-slate-400 text-[9px] font-black rounded-md border border-slate-100">{formatToothPos(visit.displayTooth)}</span>
                   </div>
-                  
-                  <button 
+
+                  <button
                     onClick={(e) => togglePatientStatus(e, visit.patient)}
                     className={`h-8 px-4 rounded-full text-[11px] font-black transition-all flex items-center gap-1 ${visit.isCompleted ? 'bg-green-500 text-white shadow-lg shadow-green-200' : 'bg-primary/10 text-primary border border-primary/20 active:bg-primary active:text-white'}`}
                   >
@@ -341,10 +341,10 @@ export const Home: React.FC = () => {
             </div>
             <h3 className="text-xl font-black mb-1 text-center text-slate-800 dark:text-slate-100">彻底删除患者数据</h3>
             <p className="text-xs font-bold text-slate-400 text-center mb-6">您正在尝试删除 <span className="text-red-500">{patientToDelete.name}</span> 的所有病历。此操作不可撤销，请完成以下口算以验证权限：</p>
-            
+
             <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 mb-6 text-center">
               <p className="text-2xl font-black text-primary tracking-widest mb-4">{verificationQuestion.q}</p>
-              <input 
+              <input
                 autoFocus
                 type="number"
                 placeholder="在此输入结果"
@@ -356,13 +356,13 @@ export const Home: React.FC = () => {
             </div>
 
             <div className="flex gap-3">
-              <button 
-                onClick={() => setPatientToDelete(null)} 
+              <button
+                onClick={() => setPatientToDelete(null)}
                 className="flex-1 h-14 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl font-black active:scale-95 transition-all"
               >
                 取消
               </button>
-              <button 
+              <button
                 onClick={confirmDelete}
                 className="flex-1 h-14 bg-red-500 text-white rounded-2xl font-black shadow-lg shadow-red-200 active:scale-95 transition-all"
               >
@@ -381,7 +381,7 @@ export const Home: React.FC = () => {
             <div className="grid grid-cols-2 gap-4 mb-8">
               <div className="space-y-1.5">
                 <p className="text-[10px] font-black text-slate-400 uppercase pl-1">年份</p>
-                <select 
+                <select
                   className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20"
                   value={currentMonth.getFullYear()}
                   onChange={(e) => {
@@ -395,7 +395,7 @@ export const Home: React.FC = () => {
               </div>
               <div className="space-y-1.5">
                 <p className="text-[10px] font-black text-slate-400 uppercase pl-1">月份</p>
-                <select 
+                <select
                   className="w-full h-14 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl px-4 text-sm font-black focus:ring-2 focus:ring-primary/20"
                   value={currentMonth.getMonth()}
                   onChange={(e) => {
@@ -404,12 +404,12 @@ export const Home: React.FC = () => {
                     setCurrentMonth(newDate);
                   }}
                 >
-                  {Array.from({length: 12}).map((_, i) => <option key={i} value={i}>{i+1}月</option>)}
+                  {Array.from({ length: 12 }).map((_, i) => <option key={i} value={i}>{i + 1}月</option>)}
                 </select>
               </div>
             </div>
-            <button 
-              onClick={() => setIsYearMonthModalOpen(false)} 
+            <button
+              onClick={() => setIsYearMonthModalOpen(false)}
               className="w-full h-16 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/25 active:scale-95 transition-all"
             >
               确定跳转

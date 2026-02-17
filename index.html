@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, interactive-widget=resizes-content">
     <title>宝龙口腔</title>
 
     <!-- PWA -->
@@ -45,10 +45,9 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* iOS safe area padding */
+        /* iOS safe area padding handled in Layout component */
         body {
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
+            overscroll-behavior-y: none;
         }
 
         .material-symbols-outlined {
