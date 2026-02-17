@@ -216,10 +216,10 @@ export const Home: React.FC = () => {
           <div ref={scrollRef} className="flex overflow-x-auto gap-3 hide-scrollbar pb-2 snap-x snap-mandatory px-1 scroll-smooth">
             <button
               onClick={() => setSelectedDate(null)}
-              className={`flex flex-col items-center justify-center min-w-[62px] h-20 rounded-2xl border transition-all snap-center ${selectedDate === null ? 'bg-primary text-white border-primary shadow-lg scale-105' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600'}`}
+              className={`flex flex-col items-center justify-center min-w-[54px] h-16 rounded-2xl border transition-all snap-center ${selectedDate === null ? 'bg-primary text-white border-primary shadow-lg scale-105' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600'}`}
             >
-              <span className={`text-[10px] font-bold mb-1 ${selectedDate === null ? 'text-white/80' : 'text-slate-400'}`}>本月</span>
-              <span className="material-symbols-outlined text-2xl font-black">calendar_view_month</span>
+              <span className={`text-[10px] font-bold mb-0.5 ${selectedDate === null ? 'text-white/80' : 'text-slate-400'}`}>本月</span>
+              <span className="material-symbols-outlined text-xl font-black">calendar_view_month</span>
             </button>
 
             {daysInMonth.map((d) => (
@@ -227,11 +227,11 @@ export const Home: React.FC = () => {
                 key={d.date}
                 ref={el => itemRefs.current[d.date] = el}
                 onClick={() => setSelectedDate(d.date)}
-                className={`flex flex-col items-center justify-center min-w-[62px] h-20 rounded-2xl border transition-all snap-center ${selectedDate === d.date ? 'bg-primary text-white border-primary shadow-lg scale-105' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600'}`}
+                className={`flex flex-col items-center justify-center min-w-[54px] h-16 rounded-2xl border transition-all snap-center ${selectedDate === d.date ? 'bg-primary text-white border-primary shadow-lg scale-105' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-600'}`}
               >
-                <span className={`text-[10px] font-bold mb-1 ${selectedDate === d.date ? 'text-white/80' : 'text-slate-400'}`}>{d.day}</span>
-                <span className="text-xl font-black">{d.date}</span>
-                {d.isToday && <div className={`mt-1 w-1 h-1 rounded-full ${selectedDate === d.date ? 'bg-white' : 'bg-primary'}`}></div>}
+                <span className={`text-[10px] font-bold mb-0.5 ${selectedDate === d.date ? 'text-white/80' : 'text-slate-400'}`}>{d.day}</span>
+                <span className="text-lg font-black">{d.date}</span>
+                {d.isToday && <div className={`mt-0.5 w-1 h-1 rounded-full ${selectedDate === d.date ? 'bg-white' : 'bg-primary'}`}></div>}
               </button>
             ))}
           </div>
