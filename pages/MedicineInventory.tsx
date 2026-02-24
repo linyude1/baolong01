@@ -102,8 +102,8 @@ export const MedicineInventory: React.FC = () => {
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <h2 className="text-lg font-black text-slate-800 dark:text-slate-100">医疗物资管理</h2>
           </div>
-          <button onClick={() => setIsMedicineModalOpen(true)} className="size-10 ml-auto flex items-center justify-center rounded-xl bg-primary/10 text-primary active:scale-90 transition-all">
-            <span className="material-symbols-outlined font-black">add</span>
+          <button onClick={() => setIsMedicineModalOpen(true)} className="size-12 ml-auto flex items-center justify-center rounded-xl bg-primary/10 text-primary active:scale-90 transition-all relative z-10">
+            <span className="material-symbols-outlined font-black text-2xl">add</span>
           </button>
         </div>
 
