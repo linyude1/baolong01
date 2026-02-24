@@ -94,7 +94,7 @@ export const MedicineInventory: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-background-light dark:bg-background-dark">
-      <header className="sticky top-0 z-[150] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 p-2">
+      <header className="sticky top-0 z-[150] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 p-2 pt-[calc(0.5rem+env(safe-area-inset-top))]">
         <div className="flex items-center h-14 px-2">
           <button onClick={() => navigate(-1)} className="size-12 flex items-center justify-center rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-90 transition-all text-slate-800 dark:text-slate-100">
             <span className="material-symbols-outlined font-black text-2xl">arrow_back</span>

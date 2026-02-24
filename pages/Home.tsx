@@ -180,14 +180,14 @@ export const Home: React.FC = () => {
   return (
     <div className="flex flex-col relative pb-20">
       <header className="sticky top-0 z-30 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 pt-[env(safe-area-inset-top)]">
-        <div className="p-4 px-2 sm:px-4">
+        <div className="p-3 px-3">
           <div className="flex items-center justify-between mb-4">
-            <button onClick={() => navigate('/medicine')} className="size-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform">
+            <button onClick={() => navigate('/medicine')} className="size-11 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-95 transition-transform">
               <span className="material-symbols-outlined text-slate-600 dark:text-slate-300">menu</span>
             </button>
 
             <div className="flex items-center gap-1">
-              <button onClick={() => changeMonth(-1)} className="size-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+              <button onClick={() => changeMonth(-1)} className="size-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                 <span className="material-symbols-outlined text-slate-400 text-lg">chevron_left</span>
               </button>
               <div
@@ -197,14 +197,14 @@ export const Home: React.FC = () => {
                 <h2 className="text-sm font-black text-primary">{monthName}</h2>
                 <span className="material-symbols-outlined text-lg text-primary">keyboard_arrow_down</span>
               </div>
-              <button onClick={() => changeMonth(1)} className="size-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+              <button onClick={() => changeMonth(1)} className="size-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                 <span className="material-symbols-outlined text-slate-400 text-lg">chevron_right</span>
               </button>
             </div>
 
             <button
               onClick={() => navigate('/medicine')}
-              className="size-10 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 relative active:scale-95 transition-transform"
+              className="size-11 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 relative active:scale-95 transition-transform"
             >
               <span className="material-symbols-outlined text-slate-600 dark:text-slate-300">notifications</span>
               {hasInventoryWarning && (

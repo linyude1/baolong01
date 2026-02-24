@@ -21,7 +21,7 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-full px-8 bg-slate-50 dark:bg-slate-900 overflow-hidden">
+    <div className="flex flex-col items-center justify-center min-h-full px-8 bg-slate-50 dark:bg-slate-900 overflow-hidden pt-[env(safe-area-inset-top)]">
       <div className="w-full max-w-sm flex flex-col items-center animate-in fade-in slide-in-from-bottom-8 duration-700">
         {/* Logo Section */}
         <div className="size-24 bg-primary rounded-[32px] flex items-center justify-center shadow-2xl shadow-primary/30 mb-8 active:scale-95 transition-transform">

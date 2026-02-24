@@ -9,16 +9,16 @@ export const Cases: React.FC = () => {
   const { patients, deletedPatients } = usePatients();
   const [query, setQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'active' | 'history'>('active');
-  
+
   const filteredActive = patients.filter(p => p.name.includes(query) || p.phone.includes(query));
   const filteredHistory = deletedPatients.filter(p => p.name.includes(query) || p.phone.includes(query));
 
   return (
     <div className="flex flex-col min-h-full">
-      <div className="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 p-2">
+      <div className="sticky top-0 z-50 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 p-2 pt-[calc(0.5rem+env(safe-area-inset-top))]">
         <div className="flex items-center justify-between mb-2">
-          <button 
-            onClick={() => navigate(-1)} 
+          <button
+            onClick={() => navigate(-1)}
             className="size-12 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-primary"
           >
             <span className="material-symbols-outlined font-black">arrow_back</span>
@@ -50,8 +50,8 @@ export const Cases: React.FC = () => {
             <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
               <span className="material-symbols-outlined text-xl">search</span>
             </div>
-            <input 
-              className="form-input block w-full h-12 pl-12 pr-4 bg-white dark:bg-slate-800 border-none rounded-xl shadow-sm focus:ring-2 focus:ring-primary/50 text-base font-black" 
+            <input
+              className="form-input block w-full h-12 pl-12 pr-4 bg-white dark:bg-slate-800 border-none rounded-xl shadow-sm focus:ring-2 focus:ring-primary/50 text-base font-black"
               placeholder={activeTab === 'active' ? "搜索活跃病历..." : "搜索历史记录..."}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -64,8 +64,8 @@ export const Cases: React.FC = () => {
         {activeTab === 'active' ? (
           <div className="flex flex-col gap-4 p-4">
             {filteredActive.map((p) => (
-              <div 
-                key={p.id} 
+              <div
+                key={p.id}
                 onClick={() => navigate(`/cases/${p.id}`)}
                 className="flex flex-col gap-4 rounded-3xl bg-white dark:bg-slate-800 p-5 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-[0.98] transition-all cursor-pointer hover:shadow-md"
               >
@@ -90,7 +90,7 @@ export const Cases: React.FC = () => {
                     )}
                   </div>
                 </div>
-                
+
                 <div className="flex flex-col gap-2 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl">
                   <div className="flex items-center gap-2 text-sm">
                     <span className="font-bold text-slate-400">牙位:</span>
@@ -124,8 +124,8 @@ export const Cases: React.FC = () => {
               </p>
             </div>
             {filteredHistory.map((p) => (
-              <div 
-                key={p.id} 
+              <div
+                key={p.id}
                 onClick={() => navigate(`/cases/${p.id}`)}
                 className="flex flex-col gap-3 rounded-3xl bg-white dark:bg-slate-800 p-5 shadow-sm border border-slate-100 dark:border-slate-700 active:scale-[0.98] transition-all cursor-pointer hover:bg-slate-50"
               >

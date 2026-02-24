@@ -40,15 +40,26 @@
         }
     </script>
     <style>
+        html,
+        body {
+            height: 100%;
+            overscroll-behavior-y: none;
+        }
+
         body {
             font-family: 'Noto Sans SC', sans-serif;
             background-color: #f6f7f8;
             -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* iOS safe area padding handled in Layout component */
-        body {
-            overscroll-behavior-y: none;
+        .safe-top {
+            padding-top: env(safe-area-inset-top);
+        }
+
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .material-symbols-outlined {

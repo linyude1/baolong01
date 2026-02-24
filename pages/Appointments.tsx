@@ -120,10 +120,10 @@ export const Appointments: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-full bg-slate-50 dark:bg-slate-950">
-      <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-sm">
+      <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-sm pt-[env(safe-area-inset-top)]">
         <div className="flex items-center p-2 justify-between">
-          <button onClick={() => navigate('/')} className="size-11 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-800 dark:text-slate-100">
-            <span className="material-symbols-outlined font-black">arrow_back</span>
+          <button onClick={() => navigate('/')} className="size-12 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-800 dark:text-slate-100">
+            <span className="material-symbols-outlined font-black text-2xl">arrow_back</span>
           </button>
           <h2 className="text-[17px] font-black text-slate-800 dark:text-slate-100">预约排班</h2>
           <button
@@ -134,7 +134,7 @@ export const Appointments: React.FC = () => {
               setTempDay(d.getDate());
               setIsDatePickerOpen(true);
             }}
-            className="size-11 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-primary"
+            className="size-12 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-primary"
           >
             <span className="material-symbols-outlined font-black">calendar_today</span>
           </button>
@@ -157,7 +157,7 @@ export const Appointments: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-1 p-4 space-y-4">
+      <main className="flex-1 p-4 pb-24 space-y-4">
         <div className="flex items-center justify-between mb-2 px-1">
           <button
             onClick={() => setIsDatePickerOpen(true)}
