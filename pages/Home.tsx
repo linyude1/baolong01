@@ -267,7 +267,7 @@ export const Home: React.FC = () => {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-6 space-y-4">
+      <div className="px-3 sm:px-4 py-6 space-y-4">
         <div className="flex items-center justify-between mb-4 px-1 text-slate-800 dark:text-slate-200">
           <h3 className="text-lg font-black">就诊名单 ({filteredVisits.length})</h3>
           <div className="flex items-center gap-2">

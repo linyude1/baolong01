@@ -44,7 +44,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, showTabBar = true }) =
       </main>
 
       {showTabBar && (
-        <nav className="absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-4 z-[100] flex justify-around items-center h-[calc(80px+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)]">
+        <nav className="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-4 z-[100] flex justify-around items-center h-[calc(80px+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)]">
           {tabs.map((tab) => (
             <TabBarItem
               key={tab.path}
