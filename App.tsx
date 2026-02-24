@@ -223,28 +223,40 @@ const App: React.FC = () => {
   // ==========================================
   const patientValue = useMemo(() => ({
     patients, deletedPatients,
-    addPatient: (np: Patient) => {
+    addPatient: async (np: Patient) => {
       setPatients(prev => [np, ...prev]);
-      if (useSupabase) patientService.addPatient(np);
+      if (useSupabase) {
+        const success = await patientService.addPatient(np);
+        if (!success) alert('❌ 数据库写入失败，请检查网络或配置。旧数据可能未保存！');
+      }
     },
-    updatePatient: (up: Patient) => {
+    updatePatient: async (up: Patient) => {
       setPatients(prev => prev.map(p => p.id === up.id ? up : p));
-      if (useSupabase) patientService.updatePatient(up);
+      if (useSupabase) {
+        const success = await patientService.updatePatient(up);
+        if (!success) alert('❌ 数据库更新失败');
+      }
     },
-    deletePatient: (id: string) => {
+    deletePatient: async (id: string) => {
       const p = patients.find(i => i.id === id);
       if (p) {
         setPatients(prev => prev.filter(i => i.id !== id));
         setDeletedPatients(prev => [{ id: p.id, name: p.name, phone: p.phone, deletedAt: new Date().toISOString(), data: JSON.parse(JSON.stringify(p)) }, ...prev]);
-        if (useSupabase) patientService.deletePatient(id);
+        if (useSupabase) {
+          const success = await patientService.deletePatient(id);
+          if (!success) alert('❌ 数据库删除同步失败');
+        }
       }
     },
-    restorePatient: (id: string) => {
+    restorePatient: async (id: string) => {
       const p = deletedPatients.find(i => i.id === id);
       if (p) {
         setDeletedPatients(prev => prev.filter(i => i.id !== id));
         setPatients(prev => [p.data, ...prev]);
-        if (useSupabase) patientService.restorePatient(id);
+        if (useSupabase) {
+          const success = await patientService.restorePatient(id);
+          if (!success) alert('❌ 数据库还原同步失败');
+        }
       }
     }
   }), [patients, deletedPatients]);
@@ -254,13 +266,19 @@ const App: React.FC = () => {
   // ==========================================
   const appointmentValue = useMemo(() => ({
     appointments,
-    addAppointment: (apt: Appointment) => {
+    addAppointment: async (apt: Appointment) => {
       setAppointments(prev => [...prev, apt]);
-      if (useSupabase) appointmentService.addAppointment(apt);
+      if (useSupabase) {
+        const success = await appointmentService.addAppointment(apt);
+        if (!success) alert('❌ 预约上传同步失败');
+      }
     },
-    cancelAppointment: (id: string) => {
+    cancelAppointment: async (id: string) => {
       setAppointments(prev => prev.filter(a => a.id !== id));
-      if (useSupabase) appointmentService.cancelAppointment(id);
+      if (useSupabase) {
+        const success = await appointmentService.cancelAppointment(id);
+        if (!success) alert('❌ 取消预约同步失败');
+      }
     }
   }), [appointments]);
 
@@ -269,27 +287,39 @@ const App: React.FC = () => {
   // ==========================================
   const medicineValue = useMemo(() => ({
     medicines, deletionHistory, shoppingItems,
-    addMedicine: (m: Medicine) => {
+    addMedicine: async (m: Medicine) => {
       setMedicinesState(prev => [m, ...prev]);
-      if (useSupabase) medicineService.addMedicine(m);
+      if (useSupabase) {
+        const success = await medicineService.addMedicine(m);
+        if (!success) alert('❌ 药品添加同步失败');
+      }
     },
-    deleteMedicine: (id: string) => {
+    deleteMedicine: async (id: string) => {
       const m = medicines.find(i => i.id === id);
       if (m) {
         setMedicinesState(prev => prev.filter(i => i.id !== id));
         setDeletionHistory(prev => [{ id: m.id, name: m.name, brand: m.brand, deletedAt: new Date().toISOString() }, ...prev]);
-        if (useSupabase) medicineService.deleteMedicine(id);
+        if (useSupabase) {
+          const success = await medicineService.deleteMedicine(id);
+          if (!success) alert('❌ 药品同步失败');
+        }
       }
     },
     setMedicines: setMedicinesState,
-    addShoppingItem: (i: ShoppingItem) => {
+    addShoppingItem: async (i: ShoppingItem) => {
       setShoppingItems(prev => [i, ...prev]);
-      if (useSupabase) medicineService.addShoppingItem(i);
+      if (useSupabase) {
+        const success = await medicineService.addShoppingItem(i);
+        if (!success) alert('❌ 购物清单上传失败');
+      }
     },
-    toggleShoppingItem: (id: string) => {
+    toggleShoppingItem: async (id: string) => {
       const item = shoppingItems.find(i => i.id === id);
       setShoppingItems(prev => prev.map(i => i.id === id ? { ...i, isBought: !i.isBought } : i));
-      if (useSupabase && item) medicineService.toggleShoppingItem(id, item.isBought);
+      if (useSupabase && item) {
+        const success = await medicineService.toggleShoppingItem(id, item.isBought);
+        if (!success) alert('❌ 状态切换同步失败');
+      }
     }
   }), [medicines, deletionHistory, shoppingItems]);
 
