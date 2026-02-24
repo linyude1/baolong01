@@ -15,6 +15,7 @@
     <meta name="apple-mobile-web-app-title" content="宝龙口腔">
     <link rel="apple-touch-icon" href="/icon-192.png">
     <link rel="icon" type="image/svg+xml" href="/icon.svg">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
     <link
@@ -73,6 +74,23 @@
         * {
             -webkit-overflow-scrolling: touch;
             touch-action: manipulation;
+        }
+
+        /* PWA standalone 模式优化 */
+        @media all and (display-mode: standalone) {
+            body {
+                -webkit-user-select: none;
+                user-select: none;
+            }
+
+            /* 允许输入框内选择文字 */
+            input,
+            textarea,
+            select,
+            [contenteditable] {
+                -webkit-user-select: text;
+                user-select: text;
+            }
         }
 
         .hide-scrollbar {
