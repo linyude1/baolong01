@@ -12,7 +12,7 @@ import { MedicineInventory } from './pages/MedicineInventory';
 import { Login } from './pages/Login';
 import { MOCK_PATIENTS, MOCK_MEDICINES, MOCK_SHOPPING_LIST, MOCK_APPOINTMENTS } from './constants';
 import { Patient, Medicine, DeletedMedicine, ShoppingItem, DeletedPatient, Appointment } from './types';
-import { isSupabaseConfigured } from './lib/supabase';
+import { supabase, isSupabaseConfigured } from './lib/supabase';
 import { authService } from './services/authService';
 import { patientService } from './services/patientService';
 import { appointmentService } from './services/appointmentService';
