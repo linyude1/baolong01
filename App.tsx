@@ -191,6 +191,19 @@ const App: React.FC = () => {
   useEffect(() => {
     if (isAuthenticated && useSupabase) {
       loadAllData();
+
+      // 订阅实时变更
+      const channel = supabase
+        .channel('db-changes')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'patients' }, () => loadAllData())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'appointments' }, () => loadAllData())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'medicines' }, () => loadAllData())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'shopping_items' }, () => loadAllData())
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [isAuthenticated, loadAllData]);
 
