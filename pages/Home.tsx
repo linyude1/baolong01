@@ -235,33 +235,40 @@ export const Home: React.FC = () => {
               </button>
             ))}
           </div>
+          <div className="mt-4 space-y-4">
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                <span className="material-symbols-outlined">search</span>
+              </span>
+              <input
+                className="block w-full h-12 pl-12 pr-4 bg-white dark:bg-slate-800 border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 text-sm"
+                placeholder="搜索患者..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => navigate('/add-case', { state: { treatmentType: TreatmentType.INITIAL } })}
+                className="h-14 bg-white dark:bg-slate-800 text-primary border border-primary/10 rounded-2xl font-black flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-sm"
+              >
+                <span className="material-symbols-outlined text-xl">person_add</span>
+                <span className="text-sm">首次就诊</span>
+              </button>
+              <button
+                onClick={() => navigate('/cases')}
+                className="h-14 bg-primary text-white rounded-2xl font-black flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-lg shadow-primary/20"
+              >
+                <span className="material-symbols-outlined text-xl">history</span>
+                <span className="text-sm">复诊查询</span>
+              </button>
+            </div>
+          </div>
         </div>
       </header>
 
-      <div className="px-3 sm:px-4 py-6 space-y-4">
-        <div className="relative">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
-            <span className="material-symbols-outlined">search</span>
-          </span>
-          <input
-            className="block w-full h-14 pl-12 pr-4 bg-white dark:bg-slate-800 border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-primary/20 text-sm"
-            placeholder="搜索患者..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <button onClick={() => navigate('/add-case', { state: { treatmentType: TreatmentType.INITIAL } })} className="h-16 bg-white dark:bg-slate-800 text-primary border border-primary/20 rounded-2xl font-black flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-sm">
-            <span className="material-symbols-outlined">person_add</span>首次就诊
-          </button>
-          <button onClick={() => navigate('/cases')} className="h-16 bg-primary text-white rounded-2xl font-black flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-lg shadow-primary/20">
-            <span className="material-symbols-outlined">history</span>复诊查询
-          </button>
-        </div>
-      </div>
-
-      <div className="px-3 sm:px-4">
-        <div className="flex items-center justify-between mb-4 px-1">
+      <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-6 space-y-4">
+        <div className="flex items-center justify-between mb-4 px-1 text-slate-800 dark:text-slate-200">
           <h3 className="text-lg font-black">就诊名单 ({filteredVisits.length})</h3>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-black bg-primary/10 text-primary px-2 py-1 rounded-md">
