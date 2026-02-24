@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { useLanguage, useAuth } from '../App';
 import { migrationService } from '../services/migrationService';
 
