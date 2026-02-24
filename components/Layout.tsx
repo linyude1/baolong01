@@ -38,13 +38,13 @@ export const Layout: React.FC<LayoutProps> = ({ children, showTabBar = true }) =
   ];
 
   return (
-    <div className="fixed inset-0 w-full max-w-[480px] mx-auto bg-background-light dark:bg-background-dark flex flex-col overflow-hidden">
-      <main className={`flex-1 min-h-0 overflow-y-auto hide-scrollbar`}>
+    <div className="fixed inset-0 w-full max-w-[480px] mx-auto bg-background-light dark:bg-background-dark flex flex-col relative overflow-hidden">
+      <main className={`flex-1 overflow-y-auto hide-scrollbar relative ${showTabBar ? 'pb-[calc(72px+env(safe-area-inset-bottom))]' : ''}`}>
         {children}
       </main>
 
       {showTabBar && (
-        <nav className="flex-shrink-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-4 z-[100] flex justify-around items-center h-[calc(80px+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)]">
+        <nav className="absolute bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-4 z-[100] flex justify-around items-center h-[calc(72px+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] pt-1">
           {tabs.map((tab) => (
             <TabBarItem
               key={tab.path}
