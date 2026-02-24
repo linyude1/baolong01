@@ -38,7 +38,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, showTabBar = true }) =
   ];
 
   return (
-    <div className="w-full max-w-[480px] mx-auto h-[100dvh] bg-background-light dark:bg-background-dark flex flex-col relative overflow-hidden">
+    <div className="fixed inset-0 w-full max-w-[480px] mx-auto bg-background-light dark:bg-background-dark flex flex-col relative overflow-hidden">
       <main className={`flex-1 overflow-y-auto hide-scrollbar relative ${showTabBar ? 'pb-[calc(80px+env(safe-area-inset-bottom))]' : ''}`}>
         {children}
       </main>
