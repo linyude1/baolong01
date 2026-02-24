@@ -1,6 +1,6 @@
 
-import React from 'react';
 import { useLanguage, useAuth } from '../App';
+import { migrationService } from '../services/migrationService';
 
 const SettingItem: React.FC<{
   icon: string;
@@ -29,9 +29,27 @@ const SettingItem: React.FC<{
 export const Profile: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const { logout } = useAuth();
+  const [hasLocalData, setHasLocalData] = React.useState(false);
+  const [isSyncing, setIsSyncing] = React.useState(false);
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'zh' ? 'en' : 'zh');
+  React.useEffect(() => {
+    setHasLocalData(migrationService.hasLocalData());
+  }, []);
+
+  const handleSync = async () => {
+    if (!window.confirm('检测到本地有未上传的旧数据，是否现在同步到云端数据库？同步过程请勿关闭页面。')) return;
+
+    setIsSyncing(true);
+    try {
+      await migrationService.migrateAll();
+      alert('数据同步成功！正在刷新页面以应用数据...');
+      window.location.reload();
+    } catch (err) {
+      console.error('Migration failed:', err);
+      alert('同步失败，请检查网络连接或稍后重试。');
+    } finally {
+      setIsSyncing(false);
+    }
   };
 
   const handleLogout = () => {
@@ -73,8 +91,18 @@ export const Profile: React.FC = () => {
             icon="language"
             label={t('language')}
             value={language === 'zh' ? '简体中文' : 'English'}
-            onClick={toggleLanguage}
+            onClick={() => setLanguage(language === 'zh' ? 'en' : 'zh')}
           />
+          {hasLocalData && (
+            <div className="p-1 bg-amber-50 dark:bg-amber-900/20 rounded-[32px] border border-amber-100 dark:border-amber-800/50">
+              <SettingItem
+                icon="cloud_upload"
+                label="同步本地数据到云端"
+                value={isSyncing ? '同步中...' : '检测到旧数据'}
+                onClick={handleSync}
+              />
+            </div>
+          )}
           <SettingItem icon="notifications" label="消息通知" value="已开启" />
           <SettingItem icon="dark_mode" label="深色模式" value="跟随系统" />
         </div>
