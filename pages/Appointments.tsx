@@ -81,7 +81,7 @@ export const Appointments: React.FC = () => {
   const handleCreateApt = () => {
     if (!newApt.patientName || !newApt.phone) return;
     const apt: Appointment = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: crypto.randomUUID(),
       patientId: newApt.patientId || undefined,
       patientName: newApt.patientName,
       phone: newApt.phone,

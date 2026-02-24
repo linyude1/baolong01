@@ -29,7 +29,7 @@ export const MedicineInventory: React.FC = () => {
   const handleAddShoppingItem = () => {
     if (!newItem.name || !newItem.quantity) return;
     const item: ShoppingItem = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: crypto.randomUUID(),
       name: newItem.name,
       quantity: newItem.quantity,
       isCustom: true,
@@ -52,7 +52,7 @@ export const MedicineInventory: React.FC = () => {
     else if (diffDays < 90) status = 'warning';
 
     const medicine: Medicine = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: crypto.randomUUID(),
       name: newMedicine.name || '',
       brand: newMedicine.brand || '未知',
       expiryDate: newMedicine.expiryDate || '',

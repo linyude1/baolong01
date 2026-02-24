@@ -119,7 +119,7 @@ export const AddCase: React.FC = () => {
         } else if (isAddingRecord) {
           // 新增记录
           const newRecord: TreatmentRecord = {
-            id: Math.random().toString(36).substr(2, 9),
+            id: crypto.randomUUID(),
             date: visitDate,
             time: visitTime,
             toothPos: toothPosStr,
@@ -150,7 +150,7 @@ export const AddCase: React.FC = () => {
         navigate(`/cases/${pToUpdate.id}`, { replace: true });
       } else {
         // 新增患者
-        const newId = Math.random().toString(36).substr(2, 9);
+        const newId = crypto.randomUUID();
         const newPatient: Patient = {
           id: newId,
           name,
@@ -166,7 +166,7 @@ export const AddCase: React.FC = () => {
           toothPos: toothPosStr,
           avatar: `https://picsum.photos/seed/${name}/200/200`,
           records: [{
-            id: Math.random().toString(36).substr(2, 9),
+            id: crypto.randomUUID(),
             date: visitDate,
             time: visitTime,
             toothPos: toothPosStr,
