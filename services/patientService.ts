@@ -18,6 +18,7 @@ function rowToPatient(row: any, records: any[] = []): Patient {
         desc: row.description || '',
         toothPos: row.tooth_pos || undefined,
         imageUrl: row.image_url || undefined,
+        roomNumber: row.room_number || undefined,
         records: records.map(r => ({
             id: r.id,
             date: r.date,
@@ -46,6 +47,7 @@ function patientToRow(p: Patient) {
         description: p.desc,
         tooth_pos: p.toothPos || null,
         image_url: p.imageUrl || null,
+        room_number: p.roomNumber || null,
     };
 }
 

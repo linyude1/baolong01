@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS patients (
   description TEXT,
   tooth_pos TEXT,
   image_url TEXT,
+  room_number TEXT,
   is_deleted BOOLEAN DEFAULT FALSE,
   deleted_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT now(),
