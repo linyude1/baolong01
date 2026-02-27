@@ -35,7 +35,8 @@ export const QueueScreen: React.FC = () => {
     };
 
     const currentPatient = useMemo(() => {
-        return patients.find(p => p.status === PatientStatus.TREATING);
+        const treating = patients.filter(p => p.status === PatientStatus.TREATING);
+        return treating.length > 0 ? treating[treating.length - 1] : null;
     }, [patients]);
 
     const waitingPatients = useMemo(() =>
