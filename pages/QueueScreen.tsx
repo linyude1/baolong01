@@ -88,7 +88,9 @@ export const QueueScreen: React.FC = () => {
                                 <div className="flex items-center gap-10 text-[56px] font-bold text-slate-400/80 tracking-widest whitespace-nowrap">
                                     <span className="material-symbols-outlined text-7xl text-[#137fec]">meeting_room</span>
                                     <span>请前往</span>
-                                    <span className="text-8xl text-[#137fec] font-black">{currentPatient.roomNumber?.replace('号诊室', '') || '?'}</span>
+                                    <span className="text-8xl text-[#137fec] font-black">
+                                        {currentPatient.roomNumber?.match(/\d+/)?.[0] || currentPatient.roomNumber || '?'}
+                                    </span>
                                     <span>号诊室就诊</span>
                                 </div>
                             </div>
