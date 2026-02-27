@@ -9,6 +9,7 @@ import { CaseDetail } from './pages/CaseDetail';
 import { AddCase } from './pages/AddCase';
 import { Profile } from './pages/Profile';
 import { MedicineInventory } from './pages/MedicineInventory';
+import { QueueScreen } from './pages/QueueScreen';
 import { Login } from './pages/Login';
 import { MOCK_PATIENTS, MOCK_MEDICINES, MOCK_SHOPPING_LIST, MOCK_APPOINTMENTS } from './constants';
 import { Patient, Medicine, DeletedMedicine, ShoppingItem, DeletedPatient, Appointment } from './types';
@@ -96,12 +97,13 @@ const AppContent: React.FC = () => {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
   if (!isAuthenticated && location.pathname !== '/login') return <Navigate to="/login" replace />;
-  const hideTabs = ['/add-case', '/medicine', '/login'].includes(location.pathname) || location.pathname.startsWith('/cases/');
+  const hideTabs = ['/add-case', '/medicine', '/login', '/queue'].includes(location.pathname) || location.pathname.startsWith('/cases/');
   return (
     <Layout showTabBar={!hideTabs && isAuthenticated}>
       <Routes>
         <Route path="/login" element={isAuthenticated ? <Navigate to="/" replace /> : <Login />} />
         <Route path="/" element={<Home />} />
+        <Route path="/queue" element={<QueueScreen />} />
         <Route path="/appointments" element={<Appointments />} />
         <Route path="/cases" element={<Cases />} />
         <Route path="/cases/:caseId" element={<CaseDetail />} />

@@ -171,10 +171,24 @@ export const Home: React.FC = () => {
     });
   }, [searchQuery, patients, selectedDate, currentMonth]);
 
+  const [roomSelectPatient, setRoomSelectPatient] = useState<Patient | null>(null);
+
   const togglePatientStatus = (e: React.MouseEvent, p: Patient) => {
     e.stopPropagation();
-    const newStatus = p.status === PatientStatus.COMPLETED ? PatientStatus.WAITING : PatientStatus.COMPLETED;
-    updatePatient({ ...p, status: newStatus });
+    if (p.status === PatientStatus.COMPLETED) {
+      updatePatient({ ...p, status: PatientStatus.WAITING, roomNumber: undefined });
+    } else if (p.status === PatientStatus.TREATING) {
+      updatePatient({ ...p, status: PatientStatus.COMPLETED });
+    } else {
+      setRoomSelectPatient(p);
+    }
+  };
+
+  const selectRoom = (room: string) => {
+    if (roomSelectPatient) {
+      updatePatient({ ...roomSelectPatient, status: PatientStatus.TREATING, roomNumber: room });
+      setRoomSelectPatient(null);
+    }
   };
 
   return (
@@ -187,6 +201,13 @@ export const Home: React.FC = () => {
             </button>
 
             <div className="flex items-center gap-1">
+              <button
+                onClick={() => navigate('/queue')}
+                className="size-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors mr-1"
+                title="就诊大屏"
+              >
+                <span className="material-symbols-outlined text-primary text-2xl">monitor</span>
+              </button>
               <button onClick={() => changeMonth(-1)} className="size-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                 <span className="material-symbols-outlined text-slate-400 text-lg">chevron_left</span>
               </button>
@@ -302,7 +323,14 @@ export const Home: React.FC = () => {
               <img src={visit.patient.avatar} className="size-16 rounded-2xl object-cover mt-2" alt={visit.patient.name} />
               <div className="flex-1 min-w-0 pt-2">
                 <div className="flex items-center justify-between mb-1">
-                  <h4 className="text-lg font-bold truncate">{visit.patient.name}</h4>
+                  <h4 className="text-lg font-bold truncate">
+                    {visit.patient.name}
+                    {visit.patient.roomNumber && (
+                      <span className="ml-2 px-1.5 py-0.5 bg-orange-50 text-orange-500 text-[9px] font-black rounded border border-orange-100 align-middle">
+                        {visit.patient.roomNumber}
+                      </span>
+                    )}
+                  </h4>
                   <span className="text-[10px] font-bold text-slate-400">{visit.displayTime}</span>
                 </div>
 
@@ -318,10 +346,17 @@ export const Home: React.FC = () => {
 
                   <button
                     onClick={(e) => togglePatientStatus(e, visit.patient)}
-                    className={`h-8 px-4 rounded-full text-[11px] font-black transition-all flex items-center gap-1 ${visit.isCompleted ? 'bg-green-500 text-white shadow-lg shadow-green-200' : 'bg-primary/10 text-primary border border-primary/20 active:bg-primary active:text-white'}`}
+                    className={`h-8 px-4 rounded-full text-[11px] font-black transition-all flex items-center gap-1 ${visit.patient.status === PatientStatus.COMPLETED
+                      ? 'bg-green-500 text-white shadow-lg shadow-green-200'
+                      : visit.patient.status === PatientStatus.TREATING
+                        ? 'bg-orange-500 text-white shadow-lg shadow-orange-200'
+                        : 'bg-primary/10 text-primary border border-primary/20 active:bg-primary active:text-white'
+                      }`}
                   >
-                    {visit.isCompleted ? (
+                    {visit.patient.status === PatientStatus.COMPLETED ? (
                       <><span className="material-symbols-outlined text-[16px]">check_circle</span>完成</>
+                    ) : visit.patient.status === PatientStatus.TREATING ? (
+                      <><span className="material-symbols-outlined text-[16px]">notifications</span>就诊中</>
                     ) : (
                       <><span className="material-symbols-outlined text-[16px]">pending_actions</span>待检</>
                     )}
@@ -420,6 +455,38 @@ export const Home: React.FC = () => {
               className="w-full h-16 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/25 active:scale-95 transition-all"
             >
               确定跳转
+            </button>
+          </div>
+        </div>
+      )}
+
+      {roomSelectPatient && (
+        <div className="fixed inset-0 z-[1200] flex items-center justify-center p-6 animate-in fade-in duration-300">
+          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={() => setRoomSelectPatient(null)}></div>
+          <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-[48px] p-10 shadow-2xl animate-in zoom-in-95 duration-300">
+            <div className="size-20 bg-blue-50 dark:bg-blue-900/30 text-primary rounded-[28px] flex items-center justify-center mx-auto mb-6 shadow-inner">
+              <span className="material-symbols-outlined text-4xl">meeting_room</span>
+            </div>
+            <h3 className="text-2xl font-black mb-1 text-center text-slate-800 dark:text-slate-100 italic">请选择诊室</h3>
+            <p className="text-[13px] font-bold text-slate-400 text-center mb-8">请为患者 <span className="text-primary underline decoration-2 underline-offset-4">{roomSelectPatient.name}</span> 分配就诊诊室</p>
+
+            <div className="space-y-3 mb-8">
+              {['1号诊室', '2号诊室', '3号诊室'].map(room => (
+                <button
+                  key={room}
+                  onClick={() => selectRoom(room)}
+                  className="w-full h-16 bg-slate-50 dark:bg-slate-800 hover:bg-primary hover:text-white text-slate-700 dark:text-slate-200 rounded-3xl font-black text-lg transition-all active:scale-[0.97] border border-transparent hover:border-primary shadow-sm hover:shadow-xl hover:shadow-primary/20"
+                >
+                  {room}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setRoomSelectPatient(null)}
+              className="w-full h-16 bg-slate-100/50 dark:bg-slate-800/50 text-slate-400 rounded-[28px] font-black active:scale-95 transition-all"
+            >
+              取消
             </button>
           </div>
         </div>

@@ -3,7 +3,8 @@ export enum PatientStatus {
   WAITING = '待检查',
   COMPLETED = '已完成',
   IN_PROGRESS = '进行中',
-  APPOINTMENT = '预约'
+  APPOINTMENT = '预约',
+  TREATING = '就诊中'
 }
 
 export enum TreatmentType {
@@ -36,6 +37,7 @@ export interface Patient {
   toothPos?: string;
   imageUrl?: string;
   records?: TreatmentRecord[];
+  roomNumber?: string;
 }
 
 export interface DeletedPatient {
